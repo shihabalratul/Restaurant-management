@@ -14,7 +14,7 @@ public:
 	int quantity[12];
 	int total_price = 0;
 private:
-    int total_tax;
+    int total_tax = 0;
     int length;
 public:
     void show_menu()
@@ -34,6 +34,7 @@ public:
 			cout<<left<<setfill(' ')<<setw(33)<<food_item_names[i];
 			cout<<food_item_prices[i]<<"/-"<<endl;
 		}
+		cout<<endl;
 	}
 
 	void add_menu()
@@ -74,7 +75,14 @@ public:
 		}
 		
 	}
-
+	void clean()
+	{
+		table_num = 0;
+		num_of_items = 0;
+		item_code[12] = {};
+		quantity[12] = {};
+		total_price = 0;
+	}
 	void show_bill()
 	{
 		cout;
@@ -107,16 +115,17 @@ public:
 		}
 
 		float tax = (5.0 * total_price)/100.0;
-		total_tax = tax;
+		total_tax += tax;
 		cout<<left<<setfill(' ')<<setw(88)<<"TAX";
 		cout<<fixed<<setprecision(2)<<tax<<endl;
 		cout<<setfill('_')<<setw(100)<<"_"<<endl;
 
 		cout<<left<<setfill(' ')<<setw(88)<<"NET TOTAL";
 
-		cout<<fixed<<setprecision(2)<<tax+total_price<<" Taka";
+		cout<<fixed<<setprecision(2)<<tax+total_price<<" Taka"<<endl;
+		cout<<endl;
 
-
+		clean();
 	}
 };
 
@@ -127,11 +136,15 @@ int main()
 {
 	Restaurant *menu = new Restaurant;
 	menu->add_menu();
-	menu->show_menu();
-	menu->take_order();
-	menu->show_bill();
+	while(true)
+	{
+		menu->show_menu();
+		menu->take_order();
+		menu->show_bill();
+	}
 
 
-	delete menu;
+		delete menu;
+	
 	return 0;
 }
